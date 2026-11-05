@@ -1,0 +1,6 @@
+{
+  "name": "BressFlow",
+  "description": "Agenda digitale personale avanzata per organizzare attività, materie, scadenze con countdown, urgenza automatica e sincronizzazione Google Calendar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

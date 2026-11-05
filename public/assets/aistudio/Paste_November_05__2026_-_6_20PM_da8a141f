@@ -1,0 +1,1113 @@
+# BressFlow – PROMPT COMPLETO PER LO SVILUPPO DELL'APPLICAZIONE WEB
+
+## OBIETTIVO DEL PROGETTO
+
+Voglio sviluppare un'applicazione web completa, moderna e responsive chiamata **BressFlow**.
+
+BressFlow deve essere un'agenda digitale personale progettata per organizzare attività, studio, impegni, materie e scadenze.
+
+L'applicazione deve consentire all'utente di gestire tutto il proprio lavoro attraverso un'unica piattaforma, con un'interfaccia intuitiva e un sistema automatizzato per:
+
+- Organizzare le attività.
+- Suddividerle in materie.
+- Creare attività principali e sottoattività.
+- Calcolare automaticamente le durate complessive.
+- Monitorare il tempo rimanente alle scadenze.
+- Determinare automaticamente il livello di urgenza.
+- Visualizzare tutte le scadenze attraverso un calendario.
+- Ricevere notifiche automatiche.
+- Monitorare i propri progressi attraverso statistiche.
+- Sincronizzare le attività con Google Calendar.
+
+**NON VOGLIO UN SEMPLICE PROTOTIPO GRAFICO.**
+
+Voglio un'applicazione web realmente funzionante, con frontend, backend, database persistente, autenticazione Google, notifiche e integrazioni esterne.
+
+Tutte le funzionalità descritte devono essere implementate realmente, non soltanto rappresentate graficamente.
+
+---
+
+# 1. AUTENTICAZIONE E GESTIONE DELL'ACCOUNT
+
+All'apertura dell'applicazione deve essere presente una schermata di accesso.
+
+L'utente deve poter accedere attraverso il proprio account Google utilizzando Google OAuth.
+
+Dopo aver effettuato l'accesso, deve essere indirizzato automaticamente alla HOME di BressFlow.
+
+Funzionalità richieste:
+
+- Accesso tramite Google.
+- Logout.
+- Visualizzazione dell'account collegato.
+- Gestione della sessione.
+- Possibilità di ricollegare l'account.
+- Protezione dei dati personali.
+
+Tutte le informazioni devono essere salvate in un database persistente e associate esclusivamente all'account dell'utente.
+
+Ogni utente deve avere il proprio ambiente personale, completamente separato da quello degli altri utenti.
+
+I dati devono rimanere disponibili anche dopo aver chiuso il browser o effettuato nuovamente l'accesso da un altro dispositivo.
+
+Prevedere il salvataggio automatico delle modifiche e una gestione affidabile degli errori di connessione.
+
+---
+
+# 2. STRUTTURA GENERALE DELL'INTERFACCIA
+
+L'applicazione deve avere un'interfaccia organizzata in una sidebar laterale sinistra e un'area principale di visualizzazione.
+
+## 2.1 SIDEBAR
+
+La sidebar deve contenere le seguenti sezioni:
+
+1. HOME
+2. CALENDARIO
+3. ATTIVITÀ
+4. MATERIE
+5. STATISTICHE
+6. IMPOSTAZIONI
+
+La sidebar deve includere:
+
+- Logo BressFlow.
+- Nome dell'applicazione.
+- Icona identificativa per ogni sezione.
+- Evidenziazione della pagina selezionata.
+- Informazioni sull'account collegato.
+- Possibilità di comprimere ed espandere il menu.
+
+Su desktop deve essere sempre facilmente accessibile.
+
+Su smartphone deve trasformarsi in un menu mobile intuitivo.
+
+## 2.2 BARRA SUPERIORE
+
+Nella parte superiore dell'area principale deve essere presente una barra contenente:
+
+- Barra di ricerca globale.
+- Icona della campanella delle notifiche.
+- Pulsante "+ NUOVA ATTIVITÀ".
+
+Il pulsante "+ NUOVA ATTIVITÀ" deve essere sempre presente in tutte le pagine.
+
+Cliccandolo deve aprire il popup di creazione di una nuova attività.
+
+## 2.3 AGGIORNAMENTO AUTOMATICO
+
+Tutte le pagine devono essere collegate allo stesso database.
+
+Quando viene creata, modificata, completata o eliminata un'attività, tutte le sezioni interessate devono aggiornarsi automaticamente, senza necessità di ricaricare manualmente la pagina.
+
+---
+
+# 3. GESTIONE DELLE ATTIVITÀ
+
+Le attività rappresentano l'elemento centrale di BressFlow.
+
+Ogni attività deve avere le seguenti proprietà:
+
+- Nome dell'attività.
+- Descrizione facoltativa.
+- Data di consegna.
+- Ora di consegna.
+- Materia di appartenenza.
+- Livello di urgenza automatico.
+- Durata stimata.
+- Eventuali sottoattività.
+- Stato.
+
+## 3.1 I DUE STATI DELLE ATTIVITÀ
+
+Ogni attività può avere esclusivamente due stati:
+
+**DA FARE**
+- È lo stato predefinito di ogni nuova attività.
+- Comprende tutte le attività non ancora completate.
+
+**COMPLETATA**
+- Viene assegnato quando l'utente termina l'attività.
+- L'attività viene spostata automaticamente nella sezione delle completate.
+
+Deve essere possibile riportare un'attività completata nello stato DA FARE.
+
+Non deve esistere uno stato IN CORSO.
+
+Non deve comparire questa dicitura in nessuna pagina, menu, filtro o componente dell'applicazione.
+
+## 3.2 GESTIONE E ORDINAMENTO
+
+Le attività devono poter essere:
+
+- Create.
+- Modificate.
+- Eliminate.
+- Completate.
+- Riap­erte.
+- Ricercate.
+- Filtrate.
+- Ordinate.
+
+Prevedere l'ordinamento per:
+
+- Data di consegna.
+- Livello di urgenza.
+- Materia.
+- Nome.
+- Durata stimata.
+
+L'ordinamento predefinito deve dare precedenza alle attività scadute, successivamente a quelle con la scadenza più vicina.
+
+A parità di scadenza, mostrare prima quelle con urgenza maggiore.
+
+---
+
+# 4. SISTEMA AUTOMATICO DI URGENZA
+
+Eliminare completamente la selezione manuale dell'importanza.
+
+Ogni attività deve ricevere automaticamente un livello di urgenza in base alla distanza temporale tra il momento attuale e la sua data e ora di consegna.
+
+Prevedere cinque livelli:
+
+| Livello | Urgenza | Tempo rimanente |
+|---|---|---|
+| 1 | Molto bassa | Più di 30 giorni |
+| 2 | Bassa | Più di 14 e fino a 30 giorni |
+| 3 | Media | Più di 7 e fino a 14 giorni |
+| 4 | Alta | Da 48 ore a 7 giorni |
+| 5 | Molto alta | Meno di 48 ore |
+
+Quando la scadenza è superata, mostrare un indicatore speciale:
+
+**SCADUTA**
+
+L'indicatore deve essere visivamente molto evidente.
+
+Le soglie devono essere calcolate utilizzando il tempo effettivo rimanente in ore e minuti, evitando confronti basati soltanto sul giorno del calendario.
+
+Il livello di urgenza deve:
+
+- Aggiornarsi automaticamente con il passare del tempo.
+- Non richiedere interventi dell'utente.
+- Essere visibile nelle schede delle attività.
+- Essere visibile nella HOME.
+- Essere visibile nel CALENDARIO.
+- Essere disponibile nella ricerca globale.
+
+Le attività completate non devono più essere considerate nelle classifiche di urgenza.
+
+---
+
+# 5. COUNTDOWN DELLE SCADENZE
+
+Ogni attività deve avere un countdown automatico.
+
+Il countdown deve calcolare il tempo esatto che manca alla consegna.
+
+Visualizzare:
+
+- Settimane.
+- Giorni.
+- Ore.
+- Minuti.
+
+Esempio:
+
+SCADENZA: 20 NOVEMBRE 2026 – ORE 18:00
+
+TEMPO RIMANENTE:
+
+2 settimane, 3 giorni, 5 ore e 24 minuti.
+
+Il countdown deve aggiornarsi automaticamente ogni minuto.
+
+Quando mancano meno di 24 ore, deve diventare più evidente.
+
+Quando la scadenza viene superata, mostrare SCADUTA.
+
+Quando un'attività viene completata, interrompere il countdown attivo e mostrare un'indicazione di completamento.
+
+Il sistema deve utilizzare il fuso orario locale dell'utente e gestire correttamente eventuali cambiamenti dell'ora legale.
+
+---
+
+# 6. SOTTOATTIVITÀ E ATTIVITÀ PRINCIPALI
+
+Ogni attività principale deve poter contenere un numero illimitato di sottoattività.
+
+Esempio:
+
+ATTIVITÀ PRINCIPALE: Preparazione verifica di matematica.
+
+- Ripassare il capitolo 1.
+- Ripassare il capitolo 2.
+- Svolgere esercizi.
+- Ripassare gli appunti.
+
+Ogni sottoattività deve avere:
+
+- Nome.
+- Descrizione facoltativa.
+- Durata stimata.
+- Stato (DA FARE oppure COMPLETATA).
+
+Le sottoattività devono poter essere aggiunte, modificate, eliminate e completate singolarmente.
+
+## 6.1 INSERIMENTO MANUALE DELLE DURATE
+
+Le durate devono essere inserite manualmente dall'utente.
+
+Nel popup di creazione e modifica attività prevedere un campo per inserire la durata stimata in ore e minuti.
+
+Se un'attività non contiene sottoattività, utilizzare la durata inserita manualmente per l'attività principale.
+
+Se contiene sottoattività, la durata complessiva deve essere calcolata automaticamente sommando le durate delle singole sottoattività.
+
+Esempio:
+
+- Capitolo 1: 45 minuti.
+- Capitolo 2: 60 minuti.
+- Esercizi: 90 minuti.
+- Appunti: 30 minuti.
+
+Durata complessiva: 225 minuti, ovvero 3 ore e 45 minuti.
+
+Quando viene modificata la durata di una sottoattività, il totale deve aggiornarsi automaticamente.
+
+Lo stesso deve avvenire quando una sottoattività viene aggiunta o eliminata.
+
+Non conteggiare due volte le durate delle attività principali e delle sottoattività.
+
+La durata totale deve essere sempre modificabile attraverso la gestione delle singole durate.
+
+## 6.2 AVANZAMENTO
+
+Ogni attività principale deve mostrare una barra di avanzamento.
+
+Esempio:
+
+2/4 sottoattività completate.
+
+Avanzamento: 50%.
+
+Quando tutte le sottoattività risultano completate, proporre all'utente di completare anche l'attività principale.
+
+Se l'utente completa direttamente un'attività principale contenente sottoattività ancora da fare, chiedere se desidera contrassegnare come completate anche le sottoattività.
+
+---
+
+# 7. MATERIE E COLORI PERSONALIZZATI
+
+Creare una sezione dedicata alle materie.
+
+L'utente deve poter:
+
+- Creare nuove materie.
+- Modificare le materie.
+- Eliminare le materie.
+- Personalizzare il colore di ogni materia.
+
+Esempi:
+
+- Matematica – Blu.
+- Italiano – Rosso.
+- Inglese – Verde.
+- Storia – Arancione.
+- Informatica – Viola.
+
+Ogni materia deve avere un colore distintivo.
+
+Il colore deve essere utilizzato in tutta l'applicazione per identificare le attività associate.
+
+Le materie devono poter essere selezionate durante la creazione di un'attività.
+
+Deve essere possibile creare attività senza materia.
+
+Quando viene eliminata una materia, chiedere all'utente cosa fare delle attività associate, evitando di eliminarle automaticamente.
+
+## 7.1 PAGINA MATERIE
+
+Ogni materia deve essere rappresentata da una scheda contenente:
+
+- Nome.
+- Colore.
+- Numero totale di attività.
+- Numero di attività completate.
+- Numero di attività da fare.
+- Percentuale di completamento.
+- Ore di lavoro previste.
+
+Cliccando su una materia, aprire una pagina con tutte le attività associate.
+
+---
+
+# 8. PAGINA HOME
+
+La HOME è la pagina principale di BressFlow.
+
+Deve essere ordinata, intuitiva e permettere di comprendere immediatamente la situazione delle attività.
+
+Organizzare la pagina nelle seguenti sezioni.
+
+## 8.1 PANORAMICA GENERALE
+
+Nella parte superiore mostrare alcuni indicatori:
+
+- Attività totali.
+- Attività da fare.
+- Attività completate.
+- Attività in scadenza oggi.
+- Attività scadute.
+
+Gli indicatori devono aggiornarsi automaticamente.
+
+## 8.2 LE MIE ATTIVITÀ
+
+Mostrare le attività ancora da completare.
+
+Ordinamento predefinito:
+
+1. Attività scadute.
+2. Attività con scadenza più vicina.
+3. Attività con urgenza maggiore.
+
+Ogni scheda deve mostrare:
+
+- Nome.
+- Materia e relativo colore.
+- Data e ora di consegna.
+- Countdown.
+- Urgenza automatica.
+- Durata stimata.
+- Avanzamento delle sottoattività.
+
+Cliccando sulla scheda, aprire i dettagli dell'attività.
+
+## 8.3 SCADENZE GIORNALIERE
+
+Creare una sezione chiamata SCADENZE.
+
+Deve mostrare esclusivamente le attività con consegna nel giorno selezionato.
+
+Inserire:
+
+- Freccia per il giorno precedente.
+- Data selezionata.
+- Freccia per il giorno successivo.
+- Pulsante OGGI.
+
+Esempio:
+
+< GIOVEDÌ 5 NOVEMBRE 2026 >
+
+Sotto la data mostrare tutte le attività in scadenza quel giorno.
+
+Deve essere possibile consultare giorni passati e futuri.
+
+Se non sono presenti attività, mostrare:
+
+"Nessuna scadenza per questa giornata."
+
+---
+
+# 9. PAGINA CALENDARIO
+
+Creare un calendario mensile completo.
+
+Il calendario deve essere organizzato in una classica griglia settimanale.
+
+Funzionalità:
+
+- Navigazione tra i mesi.
+- Frecce per mese precedente e successivo.
+- Pulsante per tornare al mese corrente.
+- Evidenziazione del giorno attuale.
+- Visualizzazione delle attività nei rispettivi giorni.
+- Colori delle materie.
+- Visualizzazione delle scadenze.
+- Apertura dei dettagli cliccando su un'attività.
+- Apertura delle scadenze cliccando su un giorno.
+- Creazione di attività selezionando direttamente un giorno.
+
+Quando sono presenti molte attività, mostrare solo le prime e aggiungere un indicatore "+ altre".
+
+Il calendario deve aggiornarsi automaticamente in seguito a ogni modifica.
+
+---
+
+# 10. PAGINA ATTIVITÀ
+
+Questa pagina deve contenere tutte le attività dell'utente, organizzate in due colonne.
+
+## COLONNA SINISTRA – DA FARE
+
+Contiene tutte le attività non completate.
+
+Devono essere ordinate automaticamente per urgenza e data di consegna.
+
+## COLONNA DESTRA – COMPLETATE
+
+Contiene tutte le attività completate.
+
+Deve essere possibile riaprire un'attività e riportarla nella colonna DA FARE.
+
+## FUNZIONALITÀ AGGIUNTIVE
+
+Prevedere:
+
+- Filtri per materia.
+- Filtri per urgenza.
+- Filtri per data di consegna.
+- Ricerca.
+- Ordinamento.
+- Espansione delle sottoattività.
+- Visualizzazione delle durate.
+- Visualizzazione dell'avanzamento.
+
+Non deve esistere una terza colonna o un terzo stato.
+
+---
+
+# 11. DRAG & DROP DELLE ATTIVITÀ
+
+Implementare il trascinamento delle schede nella pagina ATTIVITÀ.
+
+L'utente deve poter spostare un'attività da una colonna all'altra.
+
+Funzionamento:
+
+- Da DA FARE a COMPLETATE: contrassegna l'attività come completata.
+- Da COMPLETATE a DA FARE: riapre l'attività.
+
+Il cambiamento deve essere salvato immediatamente nel database.
+
+Prevedere:
+
+- Animazioni fluide.
+- Evidenziazione della colonna di destinazione.
+- Effetto visivo di sollevamento della scheda durante il trascinamento.
+- Aggiornamento automatico di tutte le altre pagine.
+
+Per le sottoattività, il trascinamento non deve completare automaticamente l'attività principale, salvo quando tutte le sottoattività risultano completate e l'utente conferma.
+
+Su smartphone e tablet prevedere un'alternativa tramite pulsante o selettore rapido.
+
+---
+
+# 12. RICERCA GLOBALE
+
+Inserire una barra di ricerca accessibile da tutte le pagine.
+
+La ricerca deve comprendere:
+
+- Attività da fare.
+- Attività completate.
+- Attività scadute.
+- Sottoattività.
+- Materie.
+
+Deve essere possibile cercare per:
+
+- Nome.
+- Parole contenute nella descrizione.
+
+Mostrare dinamicamente i risultati durante la digitazione.
+
+Ogni risultato deve contenere:
+
+- Nome dell'attività.
+- Materia.
+- Data di consegna.
+- Countdown o indicazione SCADUTA.
+- Livello di urgenza.
+- Stato.
+
+Cliccando su un risultato, aprire il dettaglio dell'attività.
+
+Prevedere un messaggio quando non vengono trovati risultati.
+
+La ricerca deve essere veloce e funzionare anche con numerose attività.
+
+---
+
+# 13. SISTEMA DI NOTIFICHE
+
+Integrare un sistema completo di notifiche automatiche.
+
+## 13.1 NOTIFICHE DELLE SCADENZE
+
+Prevedere:
+
+- Notifica 24 ore prima della consegna.
+- Notifica 1 ora prima della consegna.
+- Notifica nel momento in cui l'attività diventa scaduta.
+
+Le notifiche devono essere generate esclusivamente per le attività DA FARE.
+
+Quando un'attività viene completata o eliminata, annullare le notifiche future.
+
+Quando cambia la scadenza, riprogrammare gli avvisi.
+
+Evitare notifiche duplicate.
+
+## 13.2 CAMPANELLA DELLE NOTIFICHE
+
+Inserire nella barra superiore un'icona a forma di campanella.
+
+Mostrare un indicatore con il numero delle notifiche non lette.
+
+Cliccando sulla campanella, aprire un pannello contenente:
+
+- Notifiche delle prossime scadenze.
+- Attività appena scadute.
+- Nome dell'attività.
+- Data e ora della scadenza.
+- Possibilità di aprire direttamente l'attività.
+
+Prevedere la possibilità di contrassegnare le notifiche come lette.
+
+## 13.3 NOTIFICHE PUSH
+
+Prevedere notifiche push del browser, previo consenso dell'utente.
+
+Le notifiche devono poter essere ricevute anche quando BressFlow non è aperto, nei limiti del supporto del browser e del dispositivo.
+
+Nelle impostazioni consentire di:
+
+- Attivare le notifiche.
+- Disattivarle.
+- Personalizzare gli anticipi.
+- Gestire il consenso alle notifiche push.
+
+## 13.4 IMPLEMENTAZIONE TECNICA OBBLIGATORIA
+
+Non affidarsi esclusivamente a timer JavaScript attivi nella pagina.
+
+Utilizzare un'architettura affidabile composta da:
+
+- Service Worker.
+- Web Push API.
+- Push Subscription.
+- Backend per la gestione delle notifiche.
+- Database per registrare gli avvisi inviati.
+- Sistema di attività programmate, come cron job o scheduler.
+- Firebase Cloud Messaging oppure un sistema Web Push equivalente.
+
+Le notifiche devono essere programmate e gestite dal backend.
+
+Implementare:
+
+- Invio automatico.
+- Controllo delle notifiche già inviate.
+- Eliminazione degli avvisi non più necessari.
+- Gestione dei cambiamenti di scadenza.
+- Gestione di dispositivi diversi.
+- Gestione delle sottoscrizioni scadute o revocate.
+
+Distinguere le notifiche interne all'applicazione dalle notifiche push del browser.
+
+---
+
+# 14. PAGINA STATISTICHE
+
+Creare una dashboard dedicata al monitoraggio dei progressi.
+
+La pagina deve contenere grafici, indicatori e riepiloghi.
+
+## 14.1 STATISTICHE GENERALI
+
+Mostrare:
+
+- Numero totale di attività.
+- Numero di attività da fare.
+- Numero di attività completate.
+- Percentuale di completamento.
+- Numero di attività scadute.
+
+La percentuale deve essere calcolata automaticamente:
+
+Attività completate / Attività totali × 100.
+
+Se non sono presenti attività, evitare divisioni per zero e mostrare un valore neutro.
+
+## 14.2 TEMPO DI LAVORO
+
+Mostrare:
+
+- Ore totali di lavoro previste.
+- Ore ancora da svolgere.
+- Distribuzione delle ore per materia.
+
+Le durate devono essere ricavate dalle attività e dalle sottoattività.
+
+Non conteggiare due volte le durate delle attività principali e delle sottoattività.
+
+## 14.3 ANDAMENTO SETTIMANALE
+
+Creare un grafico che mostri il numero di attività completate nelle ultime settimane.
+
+Prevedere un confronto tra:
+
+- Settimana attuale.
+- Settimana precedente.
+
+Mostrare l'andamento dei completamenti nel tempo.
+
+## 14.4 STATISTICHE PER MATERIA
+
+Creare un grafico con la distribuzione delle attività per materia.
+
+Per ogni materia mostrare:
+
+- Attività totali.
+- Attività completate.
+- Attività da fare.
+- Percentuale di completamento.
+- Ore di lavoro previste.
+
+Utilizzare i colori personalizzati delle materie.
+
+Tutte le statistiche devono aggiornarsi automaticamente.
+
+Non mostrare dati inventati.
+
+---
+
+# 15. POPUP DI CREAZIONE E MODIFICA ATTIVITÀ
+
+Il pulsante "+ NUOVA ATTIVITÀ" deve aprire un popup moderno e intuitivo.
+
+Il popup deve contenere le seguenti sezioni.
+
+## 15.1 INFORMAZIONI PRINCIPALI
+
+- Nome attività (obbligatorio).
+- Descrizione (facoltativa).
+- Data di consegna (obbligatoria).
+- Ora di consegna (obbligatoria).
+- Materia (facoltativa).
+
+## 15.2 URGENZA AUTOMATICA
+
+Non inserire un campo per la selezione manuale dell'urgenza.
+
+Mostrare un'anteprima del livello che verrà assegnato automaticamente in base alla data e all'ora di consegna.
+
+## 15.3 DURATA STIMATA
+
+Inserire un campo per la durata stimata dell'attività.
+
+L'utente deve poter inserire manualmente ore e minuti.
+
+Se vengono aggiunte sottoattività, mostrare la durata complessiva calcolata automaticamente dalla somma delle loro durate.
+
+## 15.4 SOTTOATTIVITÀ
+
+Prevedere una sezione per aggiungere sottoattività.
+
+Per ogni sottoattività inserire:
+
+- Nome.
+- Descrizione facoltativa.
+- Durata stimata in ore e minuti.
+- Possibilità di modificare la durata.
+- Possibilità di eliminare la sottoattività.
+
+La durata complessiva deve essere aggiornata automaticamente.
+
+## 15.5 ATTIVITÀ SUPERIORE
+
+Inserire un'opzione:
+
+"Aggiungi come sottoattività".
+
+Se attivata, mostrare un menu per selezionare l'attività principale a cui collegarla.
+
+Evitare collegamenti circolari o gerarchie non valide.
+
+## 15.6 PULSANTI
+
+In fondo al popup inserire:
+
+- ANNULLA.
+- SALVA ATTIVITÀ.
+
+Il medesimo popup deve essere utilizzato anche per modificare le attività esistenti.
+
+Mantenere tutti i dati già inseriti.
+
+---
+
+# 16. PAGINA IMPOSTAZIONI
+
+La pagina IMPOSTAZIONI deve contenere diverse sezioni.
+
+## 16.1 ACCOUNT
+
+- Account Google collegato.
+- Informazioni dell'utente.
+- Logout.
+- Gestione della connessione.
+
+## 16.2 ASPETTO
+
+- Tema chiaro.
+- Tema scuro.
+- Preferenze di visualizzazione.
+- Formato data.
+- Formato orario 12/24 ore.
+
+## 16.3 NOTIFICHE
+
+- Attivazione e disattivazione.
+- Notifiche interne.
+- Notifiche push.
+- Anticipo di 24 ore.
+- Anticipo di 1 ora.
+- Personalizzazione degli avvisi.
+
+## 16.4 GOOGLE CALENDAR
+
+Inserire una sezione dedicata alla sincronizzazione con Google Calendar, descritta nel capitolo successivo.
+
+---
+
+# 17. INTEGRAZIONE E SINCRONIZZAZIONE GOOGLE CALENDAR
+
+Integrare BressFlow con Google Calendar attraverso le API ufficiali di Google.
+
+La funzionalità deve essere accessibile dalle IMPOSTAZIONI.
+
+La sincronizzazione standard deve funzionare nella direzione:
+
+**BRESSFLOW → GOOGLE CALENDAR**
+
+Le attività create o modificate in BressFlow devono comparire automaticamente su Google Calendar.
+
+Non importare automaticamente gli eventi di Google Calendar come attività BressFlow.
+
+## 17.1 COLLEGAMENTO
+
+Nelle impostazioni inserire:
+
+- Pulsante COLLEGA GOOGLE CALENDAR.
+- Stato della connessione.
+- Account Google collegato.
+- Pulsante per scollegare.
+- Pulsante per riconnettere.
+
+Utilizzare Google OAuth e richiedere esclusivamente i permessi necessari per visualizzare i calendari disponibili e creare/modificare eventi.
+
+I token devono essere gestiti in modo sicuro dal backend.
+
+Non esporre mai credenziali o token nel frontend.
+
+## 17.2 SELEZIONE DEL CALENDARIO
+
+Dopo il collegamento, recuperare tutti i calendari Google accessibili dall'utente sui quali dispone dei permessi necessari per creare eventi.
+
+Mostrare un menu a tendina con tutti i calendari disponibili.
+
+Esempio:
+
+SELEZIONA IL CALENDARIO DA SINCRONIZZARE
+
+- Calendario principale.
+- Università.
+- Lavoro.
+- Personale.
+- Altri calendari disponibili.
+
+L'utente deve poter selezionare il calendario in cui inserire le attività.
+
+Se è disponibile un solo calendario, selezionarlo automaticamente.
+
+Se sono disponibili più calendari, lasciare all'utente la scelta.
+
+La preferenza deve essere salvata e deve poter essere modificata in qualsiasi momento.
+
+## 17.3 SINCRONIZZAZIONE AUTOMATICA
+
+Quando viene creata un'attività in BressFlow, creare automaticamente il relativo evento su Google Calendar.
+
+L'evento deve contenere:
+
+- Nome dell'attività.
+- Descrizione.
+- Data di consegna.
+- Ora di consegna.
+- Materia.
+- Durata stimata, se disponibile.
+- Indicazione "Creato con BressFlow".
+
+La sincronizzazione deve rappresentare correttamente la scadenza, senza confonderla con un appuntamento o un blocco di lavoro.
+
+Utilizzare un evento dedicato alla scadenza, con orario corrispondente alla data di consegna e durata configurabile, oppure un evento giornaliero quando previsto dalle preferenze dell'utente.
+
+Non occupare automaticamente nel calendario ore di lavoro non ancora pianificate soltanto perché esiste una stima della durata.
+
+## 17.4 AGGIORNAMENTI E CANCELLAZIONI
+
+Se un'attività viene modificata in BressFlow, aggiornare il relativo evento Google Calendar.
+
+Se un'attività viene eliminata, eliminare anche il relativo evento Google Calendar.
+
+Se un'attività viene completata, aggiornare il titolo o la descrizione dell'evento per indicarne il completamento, senza eliminarlo automaticamente.
+
+Salvare nel database l'identificativo dell'evento Google associato a ogni attività.
+
+Questo permette di aggiornare gli eventi esistenti senza crearne di duplicati.
+
+## 17.5 SOTTOATTIVITÀ
+
+Nelle impostazioni prevedere un'opzione:
+
+"Sincronizza anche le sottoattività".
+
+L'utente deve poter scegliere:
+
+- Sincronizzare soltanto le attività principali.
+- Sincronizzare anche le singole sottoattività.
+
+Se viene scelta la seconda opzione, le sottoattività devono essere riconoscibili e collegate all'attività principale.
+
+## 17.6 CONTROLLO DELLA SINCRONIZZAZIONE
+
+Nelle impostazioni mostrare:
+
+- Ultima sincronizzazione.
+- Calendario selezionato.
+- Numero di attività sincronizzate.
+- Eventuali errori.
+
+Inserire un pulsante SINCRONIZZA ORA.
+
+La sincronizzazione deve comunque avvenire automaticamente.
+
+Gestire correttamente:
+
+- Token scaduti.
+- Permessi revocati.
+- Problemi temporanei di connessione.
+- Eventi eliminati manualmente da Google Calendar.
+- Cambio del calendario selezionato.
+- Eventuali duplicazioni.
+
+Se la sincronizzazione fallisce, mantenere sempre i dati originali in BressFlow e riprovare automaticamente quando possibile.
+
+Se viene cambiato il calendario di destinazione, gestire il trasferimento degli eventi già sincronizzati evitando duplicati e cancellazioni accidentali.
+
+---
+
+# 18. DESIGN E IDENTITÀ VISIVA
+
+BressFlow deve avere un design moderno, elegante, minimalista e professionale.
+
+Prendere ispirazione da strumenti come Notion, Todoist e Google Calendar, senza copiarne direttamente l'interfaccia.
+
+## 18.1 PALETTE GRAFICA
+
+Utilizzare:
+
+- Sfondo principale grigio chiarissimo.
+- Schede bianche.
+- Testi principali quasi neri.
+- Testi secondari grigi.
+- Colori distintivi per le materie.
+- Colori specifici per i livelli di urgenza.
+
+Prevedere anche un tema scuro coerente.
+
+## 18.2 STILE
+
+- Angoli leggermente arrotondati.
+- Ombre leggere.
+- Spaziature equilibrate.
+- Tipografia moderna.
+- Icone semplici e intuitive.
+- Animazioni fluide e discrete.
+- Schede ordinate e leggibili.
+- Grafici moderni.
+
+Evitare:
+
+- Eccesso di colori.
+- Elementi troppo grandi.
+- Interfacce sovraccariche.
+- Animazioni inutili.
+- Popup eccessivamente complessi.
+
+## 18.3 RESPONSIVE DESIGN
+
+L'applicazione deve funzionare correttamente su:
+
+- Computer.
+- Tablet.
+- Smartphone.
+
+La navigazione deve adattarsi automaticamente alle dimensioni dello schermo.
+
+---
+
+# 19. ARCHITETTURA TECNICA E DATABASE
+
+Utilizzare uno stack tecnologico moderno e affidabile.
+
+Stack consigliato:
+
+**FRONTEND**
+- React oppure Next.js.
+- TypeScript.
+- Tailwind CSS.
+- Libreria di componenti moderna e coerente.
+
+**BACKEND E DATABASE**
+- Supabase.
+- PostgreSQL.
+- Supabase Authentication oppure autenticazione Google OAuth equivalente.
+- Row Level Security per proteggere i dati degli utenti.
+
+**INTEGRAZIONI**
+- Google Calendar API.
+- Google OAuth.
+- Web Push API.
+- Service Worker.
+
+Organizzare il database in modo da gestire correttamente:
+
+- Utenti.
+- Attività.
+- Sottoattività.
+- Materie.
+- Durate stimate.
+- Notifiche.
+- Preferenze.
+- Collegamenti agli eventi Google Calendar.
+- Token e configurazioni delle integrazioni.
+
+Prevedere relazioni corrette tra attività principali e sottoattività.
+
+Ogni utente deve poter accedere esclusivamente ai propri dati.
+
+Proteggere le credenziali utilizzando variabili d'ambiente e sistemi sicuri di archiviazione.
+
+Non esporre chiavi API nel frontend.
+
+Implementare controlli di validazione per tutti i dati inseriti.
+
+---
+
+# 20. AFFIDABILITÀ E NOTIFICHE ANCHE A SITO CHIUSO
+
+Per garantire il funzionamento delle notifiche anche quando BressFlow non è aperto, utilizzare un'architettura basata su:
+
+- Service Worker.
+- Web Push API.
+- Push Subscription.
+- Backend per la gestione delle notifiche.
+- Database per registrare gli avvisi già inviati.
+- Cron job o scheduler per programmare gli invii.
+- Firebase Cloud Messaging oppure un sistema Web Push equivalente.
+
+Le notifiche devono essere gestite dal backend e non esclusivamente da JavaScript in esecuzione nel browser.
+
+Prevedere:
+
+- Invio automatico.
+- Controllo delle notifiche già inviate.
+- Eliminazione degli avvisi non più necessari.
+- Gestione dei cambiamenti di scadenza.
+- Gestione di dispositivi diversi.
+- Gestione delle sottoscrizioni scadute o revocate.
+
+Le notifiche push devono funzionare anche con il sito chiuso, nei limiti del supporto del browser e del dispositivo.
+
+Richiedere il consenso dell'utente e utilizzare HTTPS.
+
+---
+
+# 21. REQUISITI DI AFFIDABILITÀ
+
+Tutte le funzionalità devono essere realmente operative.
+
+Non inserire pulsanti decorativi o elementi che simulano operazioni non implementate.
+
+Gestire correttamente:
+
+- Errori di connessione.
+- Errori di autenticazione.
+- Caricamenti.
+- Salvataggi.
+- Eliminazioni.
+- Dati mancanti.
+- Token scaduti.
+- Sincronizzazioni fallite.
+- Notifiche duplicate.
+- Date e fusi orari.
+- Relazioni tra attività e sottoattività.
+
+Prevedere messaggi di conferma prima delle operazioni irreversibili.
+
+Prevedere feedback visivi quando un'operazione viene completata correttamente.
+
+Non perdere mai le attività salvate quando un'integrazione esterna non funziona.
+
+---
+
+# 22. TEST E VERIFICA FINALE
+
+Prima di considerare il progetto completato, effettuare una verifica approfondita.
+
+Testare almeno i seguenti casi:
+
+1. Registrazione e accesso tramite Google.
+2. Creazione di una materia.
+3. Creazione di un'attività.
+4. Creazione di un'attività con più sottoattività.
+5. Inserimento manuale delle durate.
+6. Calcolo automatico della durata complessiva.
+7. Modifica ed eliminazione di un'attività.
+8. Calcolo corretto del countdown.
+9. Aggiornamento automatico dell'urgenza.
+10. Gestione delle attività scadute.
+11. Completamento e riapertura delle attività.
+12. Ricerca di attività completate e sottoattività.
+13. Invio delle notifiche programmate.
+14. Ricezione delle notifiche push quando il sito è chiuso, sui dispositivi supportati.
+15. Aggiornamento delle statistiche.
+16. Drag & Drop tra le due colonne.
+17. Collegamento a Google Calendar.
+18. Selezione tra più calendari Google.
+19. Creazione, modifica ed eliminazione degli eventi sincronizzati.
+20. Aggiornamento corretto delle informazioni su tutte le pagine.
+21. Utilizzo da desktop, tablet e smartphone.
+
+Non considerare completata una funzionalità soltanto perché appare correttamente nell'interfaccia: verificarne anche il funzionamento effettivo nel backend.
+
+---
+
+# 23. ISTRUZIONE FINALE
+
+Realizza BressFlow come un'applicazione web completa, professionale e realmente utilizzabile quotidianamente.
+
+Dai priorità assoluta a:
+
+1. Funzionamento reale di tutte le funzionalità.
+2. Affidabilità del database e dei salvataggi.
+3. Precisione dei countdown e dei livelli di urgenza.
+4. Corretta gestione delle attività e delle sottoattività.
+5. Sincronizzazione con Google Calendar.
+6. Affidabilità delle notifiche push.
+7. Qualità grafica e facilità di utilizzo.
+
+Non limitarti a creare una landing page, un mockup o una demo.
+
+Sviluppa tutte le pagine, i componenti, il backend, il database e le integrazioni necessarie.
+
+Se alcune integrazioni richiedono credenziali esterne, predisponi correttamente il sistema e indica chiaramente quali configurazioni sono necessarie.
+
+Non inventare funzionalità non richieste e non eliminare nessuna delle funzionalità specificate in questo documento.
+
+**Il risultato finale deve essere BressFlow: un'unica agenda digitale completa, intuitiva e affidabile, capace di tenere sotto controllo tutte le attività e le relative scadenze.**

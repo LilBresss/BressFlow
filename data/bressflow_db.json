@@ -1,0 +1,149 @@
+{
+  "users": {},
+  "activities": [
+    {
+      "id": "act_1793900358957_2ra8f",
+      "title": "Progetto Web BressFlow",
+      "dueDate": "2026-11-05",
+      "dueTime": "18:00",
+      "subjectId": "subj_demo_user_4_1793900328457",
+      "manualDurationMinutes": 75,
+      "subtasks": [
+        {
+          "id": "sub_1793900355383_ezcj",
+          "title": "Sviluppo backend e API",
+          "durationMinutes": 75,
+          "status": "DA FARE"
+        }
+      ],
+      "userId": "demo_user",
+      "status": "DA FARE",
+      "createdAt": "2026-11-05T17:39:18.961Z"
+    },
+    {
+      "id": "act_seed_2",
+      "userId": "demo_user",
+      "title": "Tema di Italiano: testo argomentativo",
+      "description": "Stesura saggio breve su tecnologia e società contemporanea.",
+      "dueDate": "2026-11-08",
+      "dueTime": "18:00",
+      "subjectId": "subj_demo_user_1_1793900328457",
+      "status": "COMPLETATA",
+      "manualDurationMinutes": 90,
+      "subtasks": [],
+      "createdAt": "2026-11-05T17:38:48.546Z",
+      "completedAt": "2026-11-05T17:40:19.837Z"
+    },
+    {
+      "id": "act_seed_1",
+      "userId": "demo_user",
+      "title": "Preparazione verifica di matematica",
+      "description": "Ripasso equazioni di secondo grado e studio capitoli 3-4.",
+      "dueDate": "2026-11-06",
+      "dueTime": "15:00",
+      "subjectId": "subj_demo_user_0_1793900328457",
+      "status": "DA FARE",
+      "manualDurationMinutes": 120,
+      "subtasks": [
+        {
+          "id": "sub_seed_1",
+          "title": "Ripassare capitolo 1 e definizioni",
+          "durationMinutes": 45,
+          "status": "COMPLETATA"
+        },
+        {
+          "id": "sub_seed_2",
+          "title": "Svolgere esercizi pagina 120",
+          "durationMinutes": 60,
+          "status": "DA FARE"
+        },
+        {
+          "id": "sub_seed_3",
+          "title": "Schematizzare formule",
+          "durationMinutes": 30,
+          "status": "DA FARE"
+        }
+      ],
+      "createdAt": "2026-11-05T17:38:48.546Z"
+    }
+  ],
+  "subjects": [
+    {
+      "id": "subj_demo_user_0_1793900328457",
+      "userId": "demo_user",
+      "name": "Matematica",
+      "color": "#3b82f6",
+      "createdAt": "2026-11-05T17:38:48.457Z"
+    },
+    {
+      "id": "subj_demo_user_1_1793900328457",
+      "userId": "demo_user",
+      "name": "Italiano",
+      "color": "#ef4444",
+      "createdAt": "2026-11-05T17:38:48.457Z"
+    },
+    {
+      "id": "subj_demo_user_2_1793900328457",
+      "userId": "demo_user",
+      "name": "Inglese",
+      "color": "#10b981",
+      "createdAt": "2026-11-05T17:38:48.457Z"
+    },
+    {
+      "id": "subj_demo_user_3_1793900328457",
+      "userId": "demo_user",
+      "name": "Storia",
+      "color": "#f97316",
+      "createdAt": "2026-11-05T17:38:48.457Z"
+    },
+    {
+      "id": "subj_demo_user_4_1793900328457",
+      "userId": "demo_user",
+      "name": "Informatica",
+      "color": "#8b5cf6",
+      "createdAt": "2026-11-05T17:38:48.457Z"
+    }
+  ],
+  "settings": {
+    "demo_user": {
+      "theme": "light",
+      "dateFormat": "DD/MM/YYYY",
+      "timeFormat": "24h",
+      "inAppNotifications": true,
+      "pushNotifications": false,
+      "notify24h": true,
+      "notify1h": true,
+      "notifyExpired": true,
+      "syncGoogleCalendar": false,
+      "selectedCalendarId": "primary",
+      "syncSubtasks": false
+    }
+  },
+  "notifications": [
+    {
+      "id": "notif_1793900377306_byt9y",
+      "activityId": "act_1793900358957_2ra8f",
+      "activityTitle": "Progetto Web BressFlow",
+      "type": "1h",
+      "message": "Attenzione: manca meno di un'ora alla consegna dell'attività \"Progetto Web BressFlow\".",
+      "dueDateTime": "2026-11-05 18:00",
+      "timestamp": "2026-11-05T17:39:37.306Z",
+      "read": false
+    },
+    {
+      "id": "notif_1793900337293_a5z7x",
+      "activityId": "act_seed_1",
+      "activityTitle": "Preparazione verifica di matematica",
+      "type": "24h",
+      "message": "Mancano meno di 24 ore alla consegna dell'attività \"Preparazione verifica di matematica\".",
+      "dueDateTime": "2026-11-06 15:00",
+      "timestamp": "2026-11-05T17:38:57.293Z",
+      "read": false
+    }
+  ],
+  "sentAlerts": {
+    "act_seed_1_24h": true,
+    "act_1793900358957_2ra8f_1h": true
+  },
+  "pushSubscriptions": {}
+}
